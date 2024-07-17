@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>
-    <h3>放置プレイ計算機</h3>
+    <h3>ソウルメイデン・放置プレイ計算機</h3>
     <pre>何個あれば中央基点で放置プレイ出来るのか逆算します。自堕落な人用。</pre>
     <hr width="500" align="left">
     <label>採集上限増加：<input size="3" id="offset" value="0" type="text">個</label>
@@ -89,14 +89,14 @@
                 + min.toString().padStart(2, '0') + ":"
                 + sec.toString().padStart(2, '0') + "（"
                 + remain + "分）<br>";
-            msg += "限界点　　（2分/1個）：残り時間で " + (remain / 2).toFixed(1) + " 個取得可能<br>";
-            msg += "凝縮点　　（4分/1個）：残り時間で " + (remain / 4).toFixed(1) + " 個取得可能<br>";
+            msg += "<font size=-2>限界点　　（2分/1個）：残り時間で " + (remain / 2).toFixed(1) + " 個取得可能</font><br>";
+            msg += "<font size=-2>凝縮点　　（4分/1個）：残り時間で " + (remain / 4).toFixed(1) + " 個取得可能</font><br>";
             msg += "中央起点 （36分/1個）：残り時間で " + (remain / 36).toFixed(1) + " 個取得可能<br>";
             //msg += "所持数：" + already.value + "個<br>";
             if (0 > wish) {
-                msg += "<font color='red'><b>採集不足：" + Math.abs(wish).toFixed(1) + "個</b></font><br>";
+                msg += "<font color='red'><b>中央起点放置は採集不足：" + Math.abs(wish).toFixed(1) + "個</b></font><br>";
             } else {
-                msg += "<b>ノルマ達成：（余り " + Math.abs(wish).toFixed(1) + "個）</b><br>";
+                msg += "<b>中央起点放置でノルマ達成：（余り " + Math.abs(wish).toFixed(1) + "個）</b><br>";
             }
             msg += "<hr width=500 align=left>"
             msg += "<font size=-1>※AM5:00から中央起点放置していた場合、現在時刻までの取得数（" + getCount.toFixed(1) + "個）</font><br>";
