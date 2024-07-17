@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>資源争奪計算機（放置プレイ計算機）</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h3>放置プレイ計算機</h3>
+    <pre>何個あれば中央基点で放置プレイ出来るのか逆算します。自堕落な人用。</pre>
+    <hr width="500" align="left">
+    <label>採集上限増加：<input size="3" id="offset" value="0" type="text">個</label>
+    <input value="リンクに記録" id="checkButton" type="button"><br>
+    <label>現在の所持数：<input size="3" id="already" value="0" type="text">個</label><br>
+    <hr width="500" align="left">
+    <div id="realtime"></div>
+    <script language="javascript" type="text/javascript">
+        //2024/06/24#　0:00～5:00間の計算が狂うのを修正
+        //2024/07/16#　AM5:00から中央起点放置時の取得数の表示
+
+        let checkButton = document.getElementById('checkButton');
+        checkButton.addEventListener('click', IS_butotnClick);
+        let url = new URL(window.location.href);
+        let offset = document.getElementById('offset');
+        let offset2 = url.searchParams.get('limit');
+        if (offset2 != null) { offset.value = offset2; }
+        else { offset.value = 0; }
+        let already = document.getElementById('already');
+        //let already2 = url.searchParams.get('get');
+        //already.value = 0;
+
+        function IS_butotnClick() {
+            url.searchParams.delete('limit');
+            url.searchParams.set('limit', offset.value);
+            //url.searchParams.delete('get');
+            //url.searchParams.set('get',already.value);
+            window.location.replace(url.href);
+        }
+
+        function zeroPadding(NUM, LEN) {
+            return (Array(LEN).join('0') + NUM).slice(-LEN);
+        }
+
+        function debug1(debug) {
+            if (!debug) return;
+            console.log("date4," + date4);
+            console.log("min2," + min2);
+            console.log("GetCount," + getCount);
+        }
+        function debug2(debug) {
+            if (!debug) return;
+            console.log("remain," + remain);
+            console.log("count," + count);
+            console.log("wish," + wish);
+        }
+        function showClock() {
+            let nowTime = new Date();
+            let y2 = nowTime.getFullYear();
+            let m2 = nowTime.getMonth();
+            let d2 = nowTime.getDate();
+            let h2 = nowTime.getHours();
+            let d3;
+
+            if (h2 < 5) { d3 = d2; } else { d3 = d2 + 1; }
+            let lastTime = new Date(y2, m2, d3, 5, 0, 0, 0);
+            let date3 = lastTime.getTime() - nowTime.getTime();
+            let sec = Math.floor(date3 / 1000 % 60);
+            let min = Math.floor(date3 / 1000 / 60 % 60);
+            let hour = Math.floor(date3 / 1000 / 60 / 60 % 24);
+
+            let d4;
+            if (h2 > 5) { d4 = d2; } else { d4 = d2 - 1; }
+            let elapsedTime = new Date(y2, m2, d4, 5, 0, 0, 0);
+            let date4 = nowTime.getTime() - elapsedTime.getTime();
+            let min2 = Math.floor(date4 / 1000 / 60);
+            let getCount = min2 / 36;
+            debug1(false)
+
+            let remain = (hour * 60) + min;
+            let count = remain / 36;
+            let wish = parseFloat(already.value) - parseFloat((60 + parseInt(offset.value)) - count);
+            debug2(false);
+
+            let msg = "現在時刻：" + nowTime.getHours().toString().padStart(2, '0') + ":" + nowTime.getMinutes().toString().padStart(2, '0') + ":" + nowTime.getSeconds().toString().padStart(2, '0') + "<br>";
+            msg += "残り時間：" + hour.toString().padStart(2, '0') + ":" + min.toString().padStart(2, '0') + ":" + sec.toString().padStart(2, '0') + "<br>";
+            msg += "中央起点（36分/1個）：残り時間で " + count.toFixed(1) + " 個取得可能<br>";
+            //msg += "所持数：" + already.value + "個<br>";
+            if (0 > wish) {
+                msg += "<font color='red'><b>採集不足：" + Math.abs(wish).toFixed(1) + "個</b></font><br>";
+            } else {
+                msg += "<b>ノルマ達成：（余り " + Math.abs(wish).toFixed(1) + "個）</b><br>";
+            }
+            msg += "<hr width=500 align=left>"
+            msg += "<font size=-1>※AM5:00から中央起点放置していた場合、現在時刻までの取得数（" + getCount.toFixed(1) + "個）</font><br>";
+            document.getElementById("realtime").innerHTML = msg;
+        }
+        setInterval('showClock()', 1000);
+    </script>
+</body>
+</html>
