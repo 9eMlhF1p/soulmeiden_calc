@@ -42,18 +42,6 @@
             return (Array(LEN).join('0') + NUM).slice(-LEN);
         }
 
-        function debug1(debug) {
-            if (!debug) return;
-            console.log("date4," + date4);
-            console.log("min2," + min2);
-            console.log("GetCount," + getCount);
-        }
-        function debug2(debug) {
-            if (!debug) return;
-            console.log("remain," + remain);
-            console.log("count," + count);
-            console.log("wish," + wish);
-        }
         function showClock() {
             let nowTime = new Date();
             let y2 = nowTime.getFullYear();
@@ -70,17 +58,28 @@
             let hour = Math.floor(date3 / 1000 / 60 / 60 % 24);
 
             let d4;
-            if (h2 > 5) { d4 = d2; } else { d4 = d2 - 1; }
+            if (h2 > 4) { d4 = d2; } else { d4 = d2 - 1; }
             let elapsedTime = new Date(y2, m2, d4, 5, 0, 0, 0);
             let date4 = nowTime.getTime() - elapsedTime.getTime();
             let min2 = Math.floor(date4 / 1000 / 60);
             let getCount = min2 / 36;
-            debug1(false)
+
+            if (1) {
+                console.log("d4," + d4);
+                console.log("date4," + date4);
+                console.log("min2," + min2);
+                console.log("GetCount," + getCount);
+            }
 
             let remain = (hour * 60) + min;
             let count = remain / 36;
             let wish = parseFloat(already.value) - parseFloat((60 + parseInt(offset.value)) - count);
-            debug2(false);
+
+            if (0) {
+                console.log("remain," + remain);
+                console.log("count," + count);
+                console.log("wish," + wish);
+            }
 
             let msg = "現在時刻：" + nowTime.getHours().toString().padStart(2, '0') + ":"
                 + nowTime.getMinutes().toString().padStart(2, '0') + ":"
