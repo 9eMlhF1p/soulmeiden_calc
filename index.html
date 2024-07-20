@@ -58,15 +58,13 @@
             let hour = Math.floor(date3 / 1000 / 60 / 60 % 24);
 
             let d4;
-            if (h2 > 4) { d4 = d2; } else { d4 = d2 - 1; }
-            let elapsedTime = new Date(y2, m2, d4, 5, 0, 0, 0);
-            let date4 = nowTime.getTime() - elapsedTime.getTime();
+            if (h2 < 5) { d4 = d2 - 1; } else { d4 = d2; }
+            let statTime = new Date(y2, m2, d4, 5, 0, 0, 0);
+            let date4 = nowTime.getTime() - statTime.getTime();
             let min2 = Math.floor(date4 / 1000 / 60);
             let getCount = min2 / 36;
 
-            if (1) {
-                console.log("d4," + d4);
-                console.log("date4," + date4);
+            if (0) {
                 console.log("min2," + min2);
                 console.log("GetCount," + getCount);
             }
@@ -83,11 +81,12 @@
 
             let msg = "現在時刻：" + nowTime.getHours().toString().padStart(2, '0') + ":"
                 + nowTime.getMinutes().toString().padStart(2, '0') + ":"
-                + nowTime.getSeconds().toString().padStart(2, '0') + "<br>";
+                + nowTime.getSeconds().toString().padStart(2, '0') + "<font size=-2>（"
+                + min2 + "分経過）</font><br>";
             msg += "残り時間：" + hour.toString().padStart(2, '0') + ":"
                 + min.toString().padStart(2, '0') + ":"
-                + sec.toString().padStart(2, '0') + "（"
-                + remain + "分）<br>";
+                + sec.toString().padStart(2, '0') + "<font size=-2>（"
+                + remain + "分）</font><br>";
             msg += "<font size=-2>限界点　　（2分/1個）：残り時間で " + (remain / 2).toFixed(1) + " 個取得可能</font><br>";
             msg += "<font size=-2>凝縮点　　（4分/1個）：残り時間で " + (remain / 4).toFixed(1) + " 個取得可能</font><br>";
             msg += "中央起点 （36分/1個）：残り時間で " + (remain / 36).toFixed(1) + " 個取得可能<br>";
